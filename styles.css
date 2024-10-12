@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap');
 
+/* Navigation */
+
 nav {
 	display: flex;
 	align-items: center;
@@ -20,35 +22,6 @@ nav {
 	font-weight: 300;
 }
 
-@media screen and (max-width: 900px) {
-	body {
-		background: teal;
-	}
-	nav {
-		flex-direction: column;
-		gap: 1rem;
-		align-items: flex-start; 
-	}
-}
-
-nav ul {
-	display: flex;
-	list-style: none;
-	margin-top: 45px;
-	padding: 0;
-	gap: 50px;
-}
-
-@media screen and (max-width: 900px) {
-	body {
-		background: teal;
-	}
-	nav ul {
-		flex-direction: column;
-		gap: 1rem;
-	}
-}
-
 a {
 	text-decoration: none;
 	color: black;
@@ -59,6 +32,32 @@ a {
 a:hover {
 	text-decoration: underline;
 }
+
+/* Media Queries */
+
+@media screen and (max-width: 900px) {
+	
+	h1 {
+		font-size: 50px;
+		line-height: 50px;
+	}
+	nav {
+		flex-direction: column;
+		gap: 1rem;
+		align-items: flex-start; 
+	}
+
+	nav ul {
+		flex-direction: column;
+		gap: 1rem;
+	
+	}
+	header {
+		padding: 3rem 1rem;
+	}
+}
+
+/* Body */
 
 h2 {
 	font-size: 36;
