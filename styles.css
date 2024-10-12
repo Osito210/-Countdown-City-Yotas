@@ -35,7 +35,7 @@ a:hover {
 
 /* Media Queries */
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 480px) {
 	
 	h1 {
 		font-size: 50px;
