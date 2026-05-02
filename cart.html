@@ -114,8 +114,7 @@
             window.history.replaceState({}, document.title, window.location.pathname);
         }
     }
-
-    function loadCart() {
+function loadCart() {
         let cart = JSON.parse(localStorage.getItem("cart")) || [];
         let container = document.getElementById("cart-items");
         let total = 0;
@@ -127,22 +126,7 @@
             return;
         }
 
-        cart.forEach((item, index) => {
-            // Calculate subtotal for this specific item line
-            const subtotal = item.price * item.qty;
-            total += subtotal;
-
-            container.innerHTML += `
-                <div style="border-bottom: 1px solid #eee; padding: 10px 0;">
-                    <p>
-                        <strong>${item.name}</strong> 
-                        ${item.size ? `(Size: ${item.size})` : ''} <br>
-                        $${item.price} x ${item.qty} = <strong>$${subtotal}</strong>
-                        <button onclick="removeItem(${index})">Remove</button>
-                    </p>
-                </div>
-            `;
-        });
+      
         document.getElementById("cart-total").textContent = "Total Order: $" + total;
     }
 
@@ -152,7 +136,52 @@
         localStorage.setItem("cart", JSON.stringify(cart));
         loadCart();
     }
+cart.forEach((item, index) => {
+        const subtotal = item.price * item.qty;
+        total += subtotal;
 
+        // Check if the item is a type that needs a size (Shirts/Hoodies)
+        const needsSize = item.name.toLowerCase().includes("shirt") || item.name.toLowerCase().includes("hoodie");
+
+        container.innerHTML += `
+            <div style="border-bottom: 1px solid #eee; padding: 15px 0;">
+                <p>
+                    <strong>${item.name}</strong> <br>
+                    
+                    ${needsSize ? `
+                        <label>Size:</label>
+                        <select onchange="updateSize(${index}, this.value)" style="font-family: 'Luckiest Guy'; padding: 5px; border-radius: 8px;">
+                            <option value="Small" ${item.size === 'Small' ? 'selected' : ''}>Small</option>
+                            <option value="Medium" ${item.size === 'Medium' ? 'selected' : ''}>Medium</option>
+                            <option value="Large" ${item.size === 'Large' ? 'selected' : ''}>Large</option>
+                            <option value="XL" ${item.size === 'XL' ? 'selected' : ''}>XL</option>
+                            <option value="2XL" ${item.size === '2XL' ? 'selected' : ''}>2XL</option>
+                        </select>
+                    ` : ''}
+
+                    <br>
+                    $${item.price} x ${item.qty} = <strong>$${subtotal}</strong>
+                    <button onclick="removeItem(${index})">Remove</button>
+                </p>
+            </div>
+        `;
+    });
+
+    function updateSize(index, newSize) {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    cart[index].size = newSize;
+    
+    // Logic to update price based on size choice
+    const is2XL = newSize === "2XL";
+    if (cart[index].name.toLowerCase().includes("shirt")) {
+        cart[index].price = is2XL ? 25 : 20;
+    } else if (cart[index].name.toLowerCase().includes("hoodie")) {
+        cart[index].price = is2XL ? 50 : 40;
+    }
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+    loadCart(); // Refresh the display and the total
+}
     function clearCart() {
         localStorage.removeItem("cart");
         loadCart();
@@ -165,5 +194,6 @@
     handleIncomingItem(); 
     loadCart();
 </script>
+    
 </body>
 </html>
