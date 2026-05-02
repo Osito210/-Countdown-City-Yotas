@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Cart</title>
+
+    <!-- Luckiest Guy Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: "Luckiest Guy", cursive;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .page-container {
+            padding: 0 10%;
+        }
+
+        #cart-items p {
+            font-size: 22px;
+            margin: 12px 0;
+        }
+
+        #cart-total {
+            font-size: 32px;
+            margin-top: 20px;
+        }
+
+        button {
+            font-family: "Luckiest Guy", cursive;
+            cursor: pointer;
+            background: none;
+            border: 2px solid black;
+            padding: 5px 15px;
+            border-radius: 10px;
+            margin-left: 10px;
+        }
+
+        button:hover {
+            background: black;
+            color: white;
+        }
+
+        .simple-nav-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 30px;
+            background: teal;
+            color: white;
+            border-radius: 14px;
+            font-family: "Luckiest Guy", cursive;
+            text-decoration: none;
+        }
+
+        .simple-nav-btn:hover {
+            text-decoration: underline;
+        }
+
+        .action-buttons {
+            margin-top: 30px;
+        }
+
+        .empty-message {
+            font-size: 26px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <a href="index.html">
+            <img src="images/logo.png" alt="Countdown City Yotas" />
+        </a>
+        <ul>
+            <li><a href="aboutus.html">About Us</a></li>
+            <li><a href="events.html">Events</a></li>
+            <li><a href="cart.html">Cart</a></li>
+            <li><a href="Merchandise.html">Merchandise</a></li>
+            <li><a href="contactus.html">Contact Us</a></li>
+        </ul>
+        <a href="joinus.html" class="cta">Join Us</a>
+    </nav>
+
+    <div class="page-container">
+        <h1>Your Cart</h1>
+
+        <div id="cart-items"></div>
+
+        <h2 id="cart-total"></h2>
+
+        <div class="action-buttons">
+            <button onclick="clearCart()">Clear Cart</button>
+            <button onclick="checkout()">Checkout</button>
+        </div>
+
+        <br><br>
+
+        <a href="Merchandise.html" class="simple-nav-btn">Back to Merchandise</a>
+        <br><br>
+        <a href="index.html" class="simple-nav-btn">Back to Home</a>
+    </div>
+
+    <footer>
+        <nav>
+            <a href="index.html">
+                <img src="images/logo.png" alt="Countdown City Yotas" />
+            </a>
+            <ul>
+                <li><a href="aboutus.html">About Us</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="cart.html">Cart</a></li>
+                <li><a href="Merchandise.html">Merchandise</a></li>
+                <li><a href="contactus.html">Contact Us</a></li>
+            </ul>
+            <a href="joinus.html" class="cta">Join Us</a>
+        </nav>
+    </footer>
+
+    <script>
+        function loadCart() {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            let container = document.getElementById("cart-items");
+            let total = 0;
+
+            container.innerHTML = "";
+
+            if (cart.length === 0) {
+                container.innerHTML = `<p class="empty-message">Your cart is empty.</p>`;
+                document.getElementById("cart-total").textContent = "";
+                return;
+            }
+
+            cart.forEach((item, index) => {
+                total += item.price;
+
+                container.innerHTML += `
+                    <p>
+                        ${item.name} - $${item.price}
+                        <button onclick="removeItem(${index})">Remove</button>
+                    </p>
+                `;
+            });
+
+            document.getElementById("cart-total").textContent = "Total: $" + total;
+        }
+
+        function removeItem(index) {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            cart.splice(index, 1);
+            localStorage.setItem("cart", JSON.stringify(cart));
+            loadCart();
+        }
+
+        function clearCart() {
+            localStorage.removeItem("cart");
+            loadCart();
+        }
+
+        function checkout() {
+            alert("Checkout is not implemented yet, but your cart is ready!");
+        }
+
+        loadCart();
+    </script>
+
+</body>
+</html>
