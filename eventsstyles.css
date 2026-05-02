@@ -7,7 +7,7 @@ nav {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	background-color: D9D9D9;
+	background-color: #FFFFFF;
 	padding: 2rem 3rem;
 	font-family: "Luckiest Guy", cursive;
 	
@@ -101,7 +101,7 @@ h3 {
 }
 
 body {
-	background-color: D9D9D9;
+	background-color: #FFFFFF;
 	margin: 0;
 	padding: 10px;
 	font-family:"Luckiest Guy", cursive;
@@ -115,7 +115,7 @@ img{
 /* Footer */
 
 footer {
-	background-color: D9D9D9;
+	background-color: #FFFFFF;
 	padding: 0rem 1rem;
 }
 
@@ -123,7 +123,7 @@ nav {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	background-color: D9D9D9;
+	background-color: #FFFFFF;
 	padding: 2rem 3rem;
 	font-family: "Luckiest Guy", cursive;
 	
