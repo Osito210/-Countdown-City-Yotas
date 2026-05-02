@@ -177,12 +177,6 @@ footer {
     gap: 20px;
 }
 
-footer. cta{
-    text-decoration: none;
-    display: inline-flex;
-    justify-content: center;
-}
-
 nav {
     display: flex;
     align-items: center;
