@@ -91,8 +91,8 @@ h1 {
 }
 
 h2 {
-	text-align: left;
-	margin-right: 45rem;
+	text-align: 0 auto;
+	margin-right: 0 auto;
 	padding: 5rem;
 }
 
