@@ -91,53 +91,74 @@
         <a href="index.html" class="simple-nav-btn">Back to Home</a>
     </div>
 
+<script>
+    function handleIncomingItem() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const itemName = urlParams.get('item');
+        const itemPrice = parseFloat(urlParams.get('price'));
 
-    <script>
-        function loadCart() {
+        if (itemName && itemPrice) {
             let cart = JSON.parse(localStorage.getItem("cart")) || [];
-            let container = document.getElementById("cart-items");
-            let total = 0;
+            
+            // Create the new item object
+            const newItem = {
+                name: itemName.replace(/-/g, ' '), // Cleans up the dashes
+                price: itemPrice
+            };
 
-            container.innerHTML = "";
-
-            if (cart.length === 0) {
-                container.innerHTML = `<p class="empty-message">Your cart is empty.</p>`;
-                document.getElementById("cart-total").textContent = "";
-                return;
-            }
-
-            cart.forEach((item, index) => {
-                total += item.price;
-
-                container.innerHTML += `
-                    <p>
-                        ${item.name} - $${item.price}
-                        <button onclick="removeItem(${index})">Remove</button>
-                    </p>
-                `;
-            });
-
-            document.getElementById("cart-total").textContent = "Total: $" + total;
-        }
-
-        function removeItem(index) {
-            let cart = JSON.parse(localStorage.getItem("cart")) || [];
-            cart.splice(index, 1);
+            // Add to cart and save
+            cart.push(newItem);
             localStorage.setItem("cart", JSON.stringify(cart));
-            loadCart();
+
+            // Clean the URL so refreshing doesn't add the item again
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
+    }
+
+    function loadCart() {
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+        let container = document.getElementById("cart-items");
+        let total = 0;
+        container.innerHTML = "";
+
+        if (cart.length === 0) {
+            container.innerHTML = `<p class="empty-message">Your cart is empty.</p>`;
+            document.getElementById("cart-total").textContent = "";
+            return;
         }
 
-        function clearCart() {
-            localStorage.removeItem("cart");
-            loadCart();
-        }
+        cart.forEach((item, index) => {
+            total += item.price;
+            container.innerHTML += `
+                <p>
+                    ${item.name} - $${item.price}
+                    <button onclick="removeItem(${index})">Remove</button>
+                </p>
+            `;
+        });
+        document.getElementById("cart-total").textContent = "Total: $" + total;
+    }
 
-        function checkout() {
-            alert("Checkout is not implemented yet, but your cart is ready!");
-        }
-
+    function removeItem(index) {
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+        cart.splice(index, 1);
+        localStorage.setItem("cart", JSON.stringify(cart));
         loadCart();
-    </script>
+    }
+
+    function clearCart() {
+        localStorage.removeItem("cart");
+        loadCart();
+    }
+
+    function checkout() {
+        alert("Checkout is not implemented yet, but your cart is ready!");
+    }
+
+    // Run these when the page opens
+    handleIncomingItem(); 
+    loadCart();
+</script>
 
 </body>
 </html>
