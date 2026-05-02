@@ -99,7 +99,7 @@ body {
 	padding: 0;
 	gap: 10px;
 	font-family:"Luckiest Guy", cursive;
-	background: #D9D9D9;
+	background: #FFFFFF;
 }
 
 
@@ -126,7 +126,7 @@ nav {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	background-color: FF8D07;
+	background-color: #FFFFFF;
 	padding: 2rem 3rem;
 	font-family: "Luckiest Guy", cursive;
 	
