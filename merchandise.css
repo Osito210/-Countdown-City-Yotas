@@ -96,7 +96,7 @@ button:active {
     padding: 30px;
     width: 100%;
     max-width: 300px;
-    margin: 15px
+    margin: 15px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
