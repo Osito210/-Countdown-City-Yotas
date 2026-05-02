@@ -92,8 +92,8 @@ h3 {
 
 body {
     text-align: center;
-    margin: 10;
-    padding: 10;
+    margin: 0;
+    padding: 25;
     gap: 15px;
     font-family:"Luckiest Guy", cursive;
     background: #FFFFFF;
