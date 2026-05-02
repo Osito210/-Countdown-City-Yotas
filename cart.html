@@ -96,21 +96,21 @@
         const urlParams = new URLSearchParams(window.location.search);
         const itemName = urlParams.get('item');
         const itemPrice = parseFloat(urlParams.get('price'));
+        const itemSize = urlParams.get('size');     // Capture Size
+        const itemQty = parseInt(urlParams.get('qty')) || 1; // Capture Qty (default to 1)
 
         if (itemName && itemPrice) {
             let cart = JSON.parse(localStorage.getItem("cart")) || [];
             
-            // Create the new item object
             const newItem = {
-                name: itemName.replace(/-/g, ' '), // Cleans up the dashes
-                price: itemPrice
+                name: itemName.replace(/-/g, ' '),
+                price: itemPrice,
+                size: itemSize,
+                qty: itemQty
             };
 
-            // Add to cart and save
             cart.push(newItem);
             localStorage.setItem("cart", JSON.stringify(cart));
-
-            // Clean the URL so refreshing doesn't add the item again
             window.history.replaceState({}, document.title, window.location.pathname);
         }
     }
@@ -128,15 +128,22 @@
         }
 
         cart.forEach((item, index) => {
-            total += item.price;
+            // Calculate subtotal for this specific item line
+            const subtotal = item.price * item.qty;
+            total += subtotal;
+
             container.innerHTML += `
-                <p>
-                    ${item.name} - $${item.price}
-                    <button onclick="removeItem(${index})">Remove</button>
-                </p>
+                <div style="border-bottom: 1px solid #eee; padding: 10px 0;">
+                    <p>
+                        <strong>${item.name}</strong> 
+                        ${item.size ? `(Size: ${item.size})` : ''} <br>
+                        $${item.price} x ${item.qty} = <strong>$${subtotal}</strong>
+                        <button onclick="removeItem(${index})">Remove</button>
+                    </p>
+                </div>
             `;
         });
-        document.getElementById("cart-total").textContent = "Total: $" + total;
+        document.getElementById("cart-total").textContent = "Total Order: $" + total;
     }
 
     function removeItem(index) {
@@ -152,13 +159,11 @@
     }
 
     function checkout() {
-        alert("Checkout is not implemented yet, but your cart is ready!");
+        alert("Checkout is not implemented yet!");
     }
 
-    // Run these when the page opens
     handleIncomingItem(); 
     loadCart();
 </script>
-
 </body>
 </html>
