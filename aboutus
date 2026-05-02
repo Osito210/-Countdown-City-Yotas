@@ -1,0 +1,12 @@
+.about-intro {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    text-align: center;
+    line-height: 1.6;
+}
+
+.about-intro p {
+    font-size: 1.2rem;
+    text-transform: uppercase; /* Optional: matches the "bold" feel of the font */
+}
