@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap');
+
+/* Navigation */
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #FFFFFF;
+    padding: 2rem 3rem;
+    font-family: "Luckiest Guy", cursive;
+    
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    margin-top: 45px;
+    padding: 0px;
+    gap: 50px;
+    font-family: "Luckiest Guy", cursive;
+
+}
+
+.cta {
+    display: flex;
+    border-radius: 14px;
+    background: teal;
+    padding: 10px 50px;
+    color: #FFF;
+    font-size: 16px;
+    font-weight: 300;
+}
+
+
+.about-intro {
+    padding: 60px 20px;
+    max-width: 900px;
+    margin: 0 auto;
+    background: #fdfdfd; /* Light contrast against white body */
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+
+/* Footer */
+footer {
+    background: #FFFFFF;
+    padding: 0rem 1rem;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #FFFFFF;
+    padding: 2rem 3rem;
+    font-family: "Luckiest Guy", cursive;
+    
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    margin-top: 45px;
+    padding: 0px;
+    gap: 50px;
+    font-family: "Luckiest Guy", cursive;
+}
+
+.cta {
+    display: flex;
+    border-radius: 14px;
+    background: teal;
+    padding: 10px 50px;
+    color: #FFF;
+    font-size: 16px;
+    font-weight: 300;
+}
