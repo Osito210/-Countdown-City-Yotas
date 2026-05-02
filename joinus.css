@@ -139,11 +139,15 @@ nav ul {
 }
 
 .cta {
-	display: flex;
-	border-radius: 14px;
-	background: teal;
-	padding: 10px 50px;
-	color: #FFF;
-	font-size: 16px;
-	font-weight: 300;
+    display: inline-flex;      
+    justify-content: center;   
+    align-items: center;      
+    border-radius: 14px;
+    background: teal;
+    padding: 12px 30px;       
+    color: #FFF;
+    font-size: 16px;
+    font-weight: 800;         
+    text-transform: uppercase; 
+    text-decoration: none;     
 }
