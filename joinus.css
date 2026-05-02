@@ -86,7 +86,8 @@ a:hover {
 
 h1 {
 	text-align: center;
-	font-size: 48;
+	width: 100%;
+	margin: 20px,0;
 }
 
 h2 {
