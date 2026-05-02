@@ -1,13 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap');
 
-/* --- Provided Theme Styles --- */
-body { 
-    text-align: center; 
-    margin: 0; 
-    padding: 0 10%; 
-    font-family: "Luckiest Guy", cursive; 
-    background: #FFFFFF; 
-}
+/* Header */
 
 nav { 
     display: flex; 
@@ -48,6 +41,15 @@ a:hover {
     font-family: "Luckiest Guy", cursive;
     justify-content: center;
     margin: 20px auto 0;
+}
+
+/* --- Provided Theme Styles --- */
+body { 
+    text-align: center; 
+    margin: 0; 
+    padding: 0 10%; 
+    font-family: "Luckiest Guy", cursive; 
+    background: #FFFFFF; 
 }
 
 h1 { font-size: 60px; margin-top: 2rem; }
@@ -131,11 +133,53 @@ button:active {
     font-size: 18px;
 }
 
+    /* Footer */
 footer { 
     background: #FFFFFF; 
     padding: 4rem 1rem; 
     margin-top: 5rem;
     border-top: 2px solid #eee;
+}
+
+nav { 
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between; 
+    background-color: #FFFFFF; 
+    padding: 2rem 10%; 
+}
+
+nav ul { 
+    display: flex; 
+    list-style: none; 
+    margin-top: 45px; 
+    padding: 0px; 
+    gap: 50px; 
+}
+
+a { 
+    text-decoration: none; 
+    color: black; 
+    margin-top: 45px; 
+}
+
+a:hover { 
+    text-decoration: underline; 
+}
+
+.cta { 
+    display: flex; 
+    border-radius: 14px; 
+    background: teal; 
+    padding: 10px 50px; 
+    color: #FFF; 
+    font-size: 16px; 
+    font-weight: 300;
+    cursor: pointer;
+    border: none;
+    font-family: "Luckiest Guy", cursive;
+    justify-content: center;
+    margin: 20px auto 0;
 }
 
 /* --- Media Queries --- */
