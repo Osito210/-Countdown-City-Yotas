@@ -183,7 +183,22 @@ footer. cta{
     justify-content: center;
 }
 
+.join-btn {
+    display: inline-block;
+    padding: 10px 25px;      
+    background-color: #008080; 
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 50px;     
+    font-weight: bold;
+    border: none;
+    transition: background-color 0.3s ease;
+}
 
+.join-btn:hover {
+    background-color: #006666;
+    text-decoration: underline;
+}
 nav {
     display: flex;
     align-items: center;
