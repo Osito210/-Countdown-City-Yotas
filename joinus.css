@@ -93,7 +93,8 @@ h1 {
 h2 {
 	text-align: 0 auto;
 	margin-right: 0 auto;
-	padding: 5rem;
+	padding: 2rem;
+	font-size: 30;
 }
 
 h3 {
