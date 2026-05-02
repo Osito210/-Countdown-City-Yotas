@@ -115,13 +115,12 @@ img{
 
 /* --- New Form Styles --- */
 .join-container {
-    max-width: 600px;
-    margin: 2rem auto;
-    padding: 2rem;
-    border: 3px solid teal;
-    border-radius: 20px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block; 
+  text-align: center; 
 }
-
 .join-form {
     display: flex;
     flex-direction: column;
