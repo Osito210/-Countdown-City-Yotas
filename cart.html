@@ -16,28 +16,43 @@
             text-align: center;
         }
 
-        /* Standardized Nav Bar to match other pages */
-        .navbar {
+        /* Simplified Navigation */
+        nav {
             background-color: #008080;
-            overflow: hidden;
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            padding: 15px 0;
+            padding: 10px 5%;
         }
 
-        .navbar a {
+        nav img {
+            height: 50px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav a {
             color: white;
-            padding: 10px 20px;
             text-decoration: none;
-            font-size: 18px;
-            transition: all 0.3s ease;
+            font-size: 1.2rem;
+            transition: color 0.3s;
         }
 
-        .navbar a:hover {
-            background-color: #005f5f;
+        nav a:hover {
+            color: #ff4500;
+        }
+
+        .cta {
+            background-color: #ff4500;
+            padding: 10px 20px;
             border-radius: 8px;
-            transform: scale(1.05);
+            color: white !important;
         }
 
         .cart-container {
@@ -82,7 +97,6 @@
         #cart-total {
             margin-top: 35px;
             font-size: 2.5em;
-            color: #ffffff;
         }
 
         .payment-methods {
@@ -101,39 +115,33 @@
             margin-top: 20px;
         }
 
-        /* Footer styling to match standard layout */
         footer {
             background-color: #333;
             color: white;
-            padding: 30px 0;
+            padding: 40px 0;
             margin-top: 60px;
         }
 
         .footer-link {
             color: #ff4500;
             text-decoration: none;
-            margin: 0 10px;
+            font-size: 1.1rem;
         }
     </style>
 </head>
 <body>
 
-  <div class="navbar">  
     <nav>
         <a href="index.html" title="Go to Home Page">
             <img src="images/logo.png" alt="Countdown City Yotas" />
         </a>
         <ul>
-            <li><a href="aboutus.html" title="See About Us Page">About Us</a></li>
-            <li><a href="events.html" title="See Events Page">Events</a></li>
-            <li><a href="Merchandise.html" title="See Merchandise Page">Merchandise</a></li>
-            <li><a href="contactus.html" title="See Contact Us Page">Contact Us</a></li>
-            <li><a href="cart.html" title="See Cart Page">Cart</a></li>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="Merchandise.html">Merchandise</a></li>
         </ul>
-        <a href="joinus.html" title="See Join Us Page" class="cta">Join Us</a>
+        <a href="joinus.html" class="cta">Join Us</a>
     </nav>
-</div>
-    
+
     <div class="cart-container">
         <h1>Your Shopping Cart</h1>
         <div id="cart-items"></div>
@@ -161,21 +169,17 @@
         </div>
 
         <div style="margin-top: 40px;">
-            <a href="Merchandise.html" style="color: white; text-decoration: underline; margin-right: 20px;">Keep Shopping</a>
-            <button onclick="clearCart()" class="remove-btn" style="background:#333;">Clear Everything</button>
+            <button onclick="clearCart()" class="remove-btn" style="background:#333;">Clear Entire Cart</button>
         </div>
     </div>
 
     <footer>
         <p>&copy; 2026 Countdown City Yotas. Texas Built.</p>
-        <p>
-            <a href="index.html" class="footer-link">Home</a> | 
-            <a href="Contact_Us.html" class="footer-link">Contact</a>
-        </p>
+        <a href="index.html" class="footer-link">Return to Home</a> | 
+        <a href="Merchandise.html" class="footer-link">Back to Shop</a>
     </footer>
 
     <script>
-        // Logic for incoming items, pricing tiers, and payments remains the same
         function handleIncomingItem() {
             const urlParams = new URLSearchParams(window.location.search);
             const itemName = urlParams.get('item');
@@ -300,7 +304,7 @@
         }
 
         function confirmManualPay(method) {
-            alert("Thanks! We'll verify your " + method + " transfer and get your order ready!");
+            alert("Thanks! We'll verify your payment and process your order.");
             clearCart();
         }
 
