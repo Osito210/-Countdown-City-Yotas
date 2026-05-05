@@ -200,6 +200,7 @@
                                     <option value="Large" ${item.size === 'Large' ? 'selected' : ''}>L</option>
                                     <option value="XL" ${item.size === 'XL' ? 'selected' : ''}>XL</option>
                                     <option value="2XL" ${item.size === '2XL' ? 'selected' : ''}>2XL</option>
+                                    <option value="3XL" ${item.size === '3XL' ? 'selected' : ''}>3XL</option>
                                 </select>
                             ` : ''}
                             <br>
@@ -224,12 +225,16 @@
             let cart = JSON.parse(localStorage.getItem("cart")) || [];
             cart[index].size = newSize;
             
-            // Apply pricing logic for 2XL
-            const is2XL = newSize === "2XL";
-            if (cart[index].name.toLowerCase().includes("shirt")) {
-                cart[index].price = is2XL ? 25 : 20;
-            } else if (cart[index].name.toLowerCase().includes("hoodie")) {
-                cart[index].price = is2XL ? 50 : 40;
+            const itemName = cart[index].name.toLowerCase();
+            // Boolean check: is the selected size 2XL or Up?
+            const isLargeSize = (newSize === "2XL" || newSize === "3XL");
+
+            if (itemName.includes("shirt")) {
+                // T-Shirts: Small-XL $20, 2XL-Up $25
+                cart[index].price = isLargeSize ? 25 : 20;
+            } else if (itemName.includes("hoodie")) {
+                // Hoodies: Small-XL $40, 2XL-Up $50
+                cart[index].price = isLargeSize ? 50 : 40;
             }
 
             localStorage.setItem("cart", JSON.stringify(cart));
