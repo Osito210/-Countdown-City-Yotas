@@ -210,3 +210,13 @@ nav ul {
     margin: 0 auto 15px auto; 
     border-radius: 10px;
 }
+.price-disclaimer {
+    max-width: 700px;
+    margin: 10px auto 30px auto; 
+    line-height: 1.5;
+    font-size: 1.1rem;
+    color: #444; 
+    font-style: italic;
+    padding: 0 15px;
+    font-family: "Luckiest Guy", cursive; /* Optional: matches your site theme */
+}
