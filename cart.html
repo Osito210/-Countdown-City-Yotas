@@ -16,49 +16,56 @@
             text-align: center;
         }
 
-        /* Simplified Navigation */
+        /* White Header & Black Font Navigation */
         nav {
-            background-color: #008080;
+            background-color: #ffffff; /* White Header */
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 5%;
+            padding: 15px 5%;
+            border-bottom: 2px solid #eee;
         }
 
         nav img {
-            height: 50px;
+            height: 60px;
         }
 
         nav ul {
             list-style: none;
             display: flex;
-            gap: 20px;
+            gap: 30px;
             margin: 0;
             padding: 0;
         }
 
         nav a {
-            color: white;
+            color: #000000; /* Black Font */
             text-decoration: none;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             transition: color 0.3s;
         }
 
         nav a:hover {
-            color: #ff4500;
+            color: #008080;
         }
 
+        /* Teal Join Us Button */
         .cta {
-            background-color: #ff4500;
-            padding: 10px 20px;
-            border-radius: 8px;
+            background-color: #008080; /* Teal Button */
+            padding: 12px 24px;
+            border-radius: 10px;
             color: white !important;
+            transition: background-color 0.3s;
+        }
+
+        .cta:hover {
+            background-color: #005f5f;
         }
 
         .cart-container {
             max-width: 800px;
             margin: 50px auto;
-            background: #008080;
+            background: #008080; /* Teal Box remains for the cart */
             color: white;
             padding: 40px;
             border-radius: 25px;
@@ -123,7 +130,7 @@
         }
 
         .footer-link {
-            color: #ff4500;
+            color: #008080;
             text-decoration: none;
             font-size: 1.1rem;
         }
@@ -175,8 +182,8 @@
 
     <footer>
         <p>&copy; 2026 Countdown City Yotas. Texas Built.</p>
-        <a href="index.html" class="footer-link">Return to Home</a> | 
-        <a href="Merchandise.html" class="footer-link">Back to Shop</a>
+        <a href="index.html" class="footer-link">Home</a> | 
+        <a href="Merchandise.html" class="footer-link">Merchandise</a>
     </footer>
 
     <script>
