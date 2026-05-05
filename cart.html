@@ -9,45 +9,50 @@
     <style>
         body {
             font-family: 'Luckiest Guy', cursive;
-            background-color: #ffffff; /* White Background */
+            background-color: #ffffff;
             color: #333;
             margin: 0;
             padding: 0;
             text-align: center;
         }
 
+        /* Standardized Nav Bar to match other pages */
         .navbar {
-            background-color: #008080; /* Teal Navbar */
+            background-color: #008080;
             overflow: hidden;
             display: flex;
             justify-content: center;
-            padding: 10px 0;
+            align-items: center;
+            padding: 15px 0;
         }
+
         .navbar a {
             color: white;
-            padding: 14px 20px;
+            padding: 10px 20px;
             text-decoration: none;
             font-size: 18px;
-            transition: background-color 0.3s;
+            transition: all 0.3s ease;
         }
+
         .navbar a:hover {
             background-color: #005f5f;
             border-radius: 8px;
+            transform: scale(1.05);
         }
 
         .cart-container {
             max-width: 800px;
             margin: 50px auto;
-            background: #008080; /* Teal Box */
+            background: #008080;
             color: white;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 128, 128, 0.3);
+            padding: 40px;
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(0, 128, 128, 0.4);
         }
 
         .item-row {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 20px 0;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+            padding: 25px 0;
             text-align: left;
             display: flex;
             justify-content: space-between;
@@ -56,55 +61,58 @@
 
         input[type="number"], select {
             font-family: 'Luckiest Guy';
-            padding: 8px;
-            border-radius: 8px;
+            padding: 10px;
+            border-radius: 10px;
             border: 2px solid #ffffff;
             background: #005f5f;
             color: white;
-            margin-top: 5px;
+            margin-top: 8px;
         }
 
         .remove-btn {
             background-color: #ff4500;
             color: white;
             border: none;
-            padding: 8px 15px;
-            border-radius: 8px;
+            padding: 10px 18px;
+            border-radius: 10px;
             cursor: pointer;
             font-family: 'Luckiest Guy';
         }
 
-        .remove-btn:hover {
-            background-color: #e63e00;
-        }
-
         #cart-total {
-            margin-top: 30px;
-            font-size: 2em;
+            margin-top: 35px;
+            font-size: 2.5em;
             color: #ffffff;
         }
 
         .payment-methods {
-            margin-top: 30px;
-            padding: 20px;
+            margin-top: 35px;
+            padding: 25px;
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
+            border-radius: 20px;
         }
 
         .manual-pay-info {
             display: none;
             background: #ffffff;
             color: #008080;
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 15px;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
         }
 
+        /* Footer styling to match standard layout */
         footer {
             background-color: #333;
             color: white;
-            padding: 20px 0;
-            margin-top: 50px;
+            padding: 30px 0;
+            margin-top: 60px;
+        }
+
+        .footer-link {
+            color: #ff4500;
+            text-decoration: none;
+            margin: 0 10px;
         }
     </style>
 </head>
@@ -120,49 +128,71 @@
     </div>
 
     <div class="cart-container">
-        <h1>Your Cart</h1>
+        <h1>Your Shopping Cart</h1>
         <div id="cart-items"></div>
         <h2 id="cart-total"></h2>
 
         <div class="payment-methods">
-            <h3>Select Payment Method:</h3>
-            <select id="pay-selector" onchange="togglePaymentFields()" style="width: 80%; font-size: 1.1em;">
+            <h3>Choose Payment Method:</h3>
+            <select id="pay-selector" onchange="togglePaymentFields()" style="width: 85%; font-size: 1.2em;">
                 <option value="paypal">PayPal or Credit Card</option>
                 <option value="cashapp">CashApp</option>
                 <option value="zelle">Zelle</option>
             </select>
 
-            <div id="paypal-button-container" style="margin-top: 25px;"></div>
+            <div id="paypal-button-container" style="margin-top: 30px;"></div>
 
             <div id="cashapp-info" class="manual-pay-info">
-                <p>Send total to: <strong style="color:#00d632;">$CCYotas210</strong></p>
-                <button class="remove-btn" onclick="confirmManualPay('CashApp')">I've Sent Payment</button>
+                <p>Send Total to: <strong style="color:#00d632; font-size: 1.4em;">$CCYotas210</strong></p>
+                <button class="remove-btn" onclick="confirmManualPay('CashApp')">I Have Sent Payment</button>
             </div>
 
             <div id="zelle-info" class="manual-pay-info">
-                <p>Send total to: <strong style="color:#008080;">(210) 555-5555</strong></p>
-                <button class="remove-btn" onclick="confirmManualPay('Zelle')">I've Sent Payment</button>
+                <p>Send Total to: <strong style="color:#008080; font-size: 1.4em;">(210) 555-5555</strong></p>
+                <button class="remove-btn" onclick="confirmManualPay('Zelle')">I Have Sent Payment</button>
             </div>
         </div>
 
-        <button onclick="clearCart()" class="remove-btn" style="background:#333; margin-top:40px;">Clear Entire Cart</button>
+        <div style="margin-top: 40px;">
+            <a href="Merchandise.html" style="color: white; text-decoration: underline; margin-right: 20px;">Keep Shopping</a>
+            <button onclick="clearCart()" class="remove-btn" style="background:#333;">Clear Everything</button>
+        </div>
     </div>
 
     <footer>
         <p>&copy; 2026 Countdown City Yotas. Texas Built.</p>
+        <p>
+            <a href="index.html" class="footer-link">Home</a> | 
+            <a href="Contact_Us.html" class="footer-link">Contact</a>
+        </p>
     </footer>
 
     <script>
+        // Logic for incoming items, pricing tiers, and payments remains the same
         function handleIncomingItem() {
             const urlParams = new URLSearchParams(window.location.search);
             const itemName = urlParams.get('item');
-            const itemPrice = parseFloat(urlParams.get('price'));
             const itemSize = urlParams.get('size');
             const itemQty = parseInt(urlParams.get('qty')) || 1;
+            let itemPrice = parseFloat(urlParams.get('price'));
 
             if (itemName && itemPrice) {
+                const nameLower = itemName.toLowerCase();
+                const isLargeSize = (itemSize === "2XL" || itemSize === "3XL");
+
+                if (nameLower.includes("shirt")) {
+                    itemPrice = isLargeSize ? 25 : 20;
+                } else if (nameLower.includes("hoodie")) {
+                    itemPrice = isLargeSize ? 50 : 40;
+                }
+
                 let cart = JSON.parse(localStorage.getItem("cart")) || [];
-                cart.push({ name: itemName.replace(/-/g, ' '), price: itemPrice, size: itemSize, qty: itemQty });
+                cart.push({ 
+                    name: itemName.replace(/-/g, ' '), 
+                    price: itemPrice, 
+                    size: itemSize, 
+                    qty: itemQty 
+                });
                 localStorage.setItem("cart", JSON.stringify(cart));
                 window.history.replaceState({}, document.title, window.location.pathname);
             }
@@ -175,7 +205,7 @@
             container.innerHTML = "";
 
             if (cart.length === 0) {
-                container.innerHTML = `<p style="font-size:1.2em;">Your cart is empty.</p>`;
+                container.innerHTML = `<p style="font-size:1.4em; padding: 20px;">Your cart is currently empty.</p>`;
                 document.getElementById("cart-total").textContent = "";
                 document.querySelector(".payment-methods").style.display = "none";
                 return;
@@ -191,7 +221,7 @@
                 container.innerHTML += `
                     <div class="item-row">
                         <div>
-                            <strong style="font-size:1.2em;">${item.name}</strong><br>
+                            <strong style="font-size:1.3em;">${item.name}</strong><br>
                             ${needsSize ? `
                                 <span>Size: </span>
                                 <select onchange="updateSize(${index}, this.value)">
@@ -205,11 +235,11 @@
                             ` : ''}
                             <br>
                             <span>Qty: </span>
-                            <input type="number" min="1" value="${item.qty}" onchange="updateQty(${index}, this.value)" style="width: 50px;">
+                            <input type="number" min="1" value="${item.qty}" onchange="updateQty(${index}, this.value)" style="width: 55px;">
                         </div>
                         <div style="text-align: right;">
-                            <span>$${subtotal.toFixed(2)}</span><br>
-                            <button class="remove-btn" onclick="removeItem(${index})" style="margin-top:10px; font-size:0.8em;">Remove</button>
+                            <span style="font-size: 1.2em;">$${subtotal.toFixed(2)}</span><br>
+                            <button class="remove-btn" onclick="removeItem(${index})" style="margin-top:12px; font-size:0.8em;">Remove</button>
                         </div>
                     </div>
                 `;
@@ -224,16 +254,12 @@
         function updateSize(index, newSize) {
             let cart = JSON.parse(localStorage.getItem("cart")) || [];
             cart[index].size = newSize;
-            
             const itemName = cart[index].name.toLowerCase();
-            // Boolean check: is the selected size 2XL or Up?
             const isLargeSize = (newSize === "2XL" || newSize === "3XL");
 
             if (itemName.includes("shirt")) {
-                // T-Shirts: Small-XL $20, 2XL-Up $25
                 cart[index].price = isLargeSize ? 25 : 20;
             } else if (itemName.includes("hoodie")) {
-                // Hoodies: Small-XL $40, 2XL-Up $50
                 cart[index].price = isLargeSize ? 50 : 40;
             }
 
@@ -267,7 +293,7 @@
         }
 
         function confirmManualPay(method) {
-            alert("Thanks! We'll process your order once we confirm the " + method + " payment.");
+            alert("Thanks! We'll verify your " + method + " transfer and get your order ready!");
             clearCart();
         }
 
@@ -279,8 +305,10 @@
         }
 
         function clearCart() {
-            localStorage.removeItem("cart");
-            loadCart();
+            if(confirm("Clear your cart?")) {
+                localStorage.removeItem("cart");
+                loadCart();
+            }
         }
 
         handleIncomingItem();
