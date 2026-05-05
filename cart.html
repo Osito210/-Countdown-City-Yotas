@@ -2,198 +2,169 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Your Cart</title>
-
-    <!-- Luckiest Guy Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart - Countdown City Yotas</title>
+    <script src="https://www.paypal.com/sdk/js?client-id=test&currency=USD"></script>
     <style>
-        body {
-            font-family: "Luckiest Guy", cursive;
-            text-align: center;
-            margin: 0;
-            padding: 0;
-        }
-
-        .page-container {
-            padding: 0 10%;
-        }
-
-        #cart-items p {
-            font-size: 22px;
-            margin: 12px 0;
-        }
-
-        #cart-total {
-            font-size: 32px;
-            margin-top: 20px;
-        }
-
-        button {
-            font-family: "Luckiest Guy", cursive;
-            cursor: pointer;
-            background: none;
-            border: 2px solid black;
-            padding: 5px 15px;
-            border-radius: 10px;
-            margin-left: 10px;
-        }
-
-        button:hover {
-            background: black;
-            color: white;
-        }
-
-        .simple-nav-btn {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 10px 30px;
-            background: teal;
-            color: white;
-            border-radius: 14px;
-            font-family: "Luckiest Guy", cursive;
-            text-decoration: none;
-        }
-
-        .simple-nav-btn:hover {
-            text-decoration: underline;
-        }
-
-        .action-buttons {
-            margin-top: 30px;
-        }
-
-        .empty-message {
-            font-size: 26px;
-            margin-top: 20px;
-        }
+        /* Keep your existing CSS here or link to your stylesheet */
+        body { font-family: 'Luckiest Guy', cursive; background-color: #f4f4f4; text-align: center; }
+        .cart-container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .action-buttons button { padding: 10px 20px; margin: 10px; cursor: pointer; border-radius: 8px; border: none; background: #ff4500; color: white; font-family: 'Luckiest Guy'; }
+        .simple-nav-btn { display: inline-block; margin-top: 20px; text-decoration: none; color: #333; border: 1px solid #333; padding: 5px 10px; border-radius: 5px; }
+        .item-row { border-bottom: 1px solid #eee; padding: 15px 0; text-align: left; }
     </style>
 </head>
-
 <body>
 
-    <div class="page-container">
+    <div class="cart-container">
         <h1>Your Cart</h1>
-
         <div id="cart-items"></div>
-
         <h2 id="cart-total"></h2>
+
+        <div id="paypal-button-container" style="margin-top: 20px;"></div>
 
         <div class="action-buttons">
             <button onclick="clearCart()">Clear Cart</button>
-            <button onclick="checkout()">Checkout</button>
         </div>
 
-        <br><br>
-
+        <br>
         <a href="Merchandise.html" class="simple-nav-btn">Back to Merchandise</a>
-        <br><br>
+        <br>
         <a href="index.html" class="simple-nav-btn">Back to Home</a>
     </div>
 
-<script>
-    function handleIncomingItem() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const itemName = urlParams.get('item');
-        const itemPrice = parseFloat(urlParams.get('price'));
-        const itemSize = urlParams.get('size');     // Capture Size
-        const itemQty = parseInt(urlParams.get('qty')) || 1; // Capture Qty (default to 1)
+    <script>
+        function handleIncomingItem() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const itemName = urlParams.get('item');
+            const itemPrice = parseFloat(urlParams.get('price'));
+            const itemSize = urlParams.get('size');
+            const itemQty = parseInt(urlParams.get('qty')) || 1;
 
-        if (itemName && itemPrice) {
+            if (itemName && itemPrice) {
+                let cart = JSON.parse(localStorage.getItem("cart")) || [];
+                const newItem = {
+                    name: itemName.replace(/-/g, ' '),
+                    price: itemPrice,
+                    size: itemSize,
+                    qty: itemQty
+                };
+                cart.push(newItem);
+                localStorage.setItem("cart", JSON.stringify(cart));
+                // Clean URL so refresh doesn't add duplicate items
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
+        }
+
+        function loadCart() {
             let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            let container = document.getElementById("cart-items");
+            let total = 0;
+            container.innerHTML = "";
+
+            if (cart.length === 0) {
+                container.innerHTML = `<p>Your cart is empty.</p>`;
+                document.getElementById("cart-total").textContent = "";
+                document.getElementById("paypal-button-container").style.display = "none";
+                return;
+            }
+
+            document.getElementById("paypal-button-container").style.display = "block";
+
+            cart.forEach((item, index) => {
+                const subtotal = item.price * item.qty;
+                total += subtotal;
+                const needsSize = item.name.toLowerCase().includes("shirt") || item.name.toLowerCase().includes("hoodie");
+
+                container.innerHTML += `
+                    <div class="item-row">
+                        <p>
+                            <strong>${item.name}</strong> <br>
+                            ${needsSize ? `
+                                <label>Size:</label>
+                                <select onchange="updateSize(${index}, this.value)" style="font-family: 'Luckiest Guy'; padding: 5px; border-radius: 8px;">
+                                    <option value="Small" ${item.size === 'Small' ? 'selected' : ''}>Small</option>
+                                    <option value="Medium" ${item.size === 'Medium' ? 'selected' : ''}>Medium</option>
+                                    <option value="Large" ${item.size === 'Large' ? 'selected' : ''}>Large</option>
+                                    <option value="XL" ${item.size === 'XL' ? 'selected' : ''}>XL</option>
+                                    <option value="2XL" ${item.size === '2XL' ? 'selected' : ''}>2XL</option>
+                                </select>
+                            ` : ''}
+                            <br>
+                            <label>Qty:</label>
+                            <input type="number" min="1" value="${item.qty}" 
+                                   onchange="updateQty(${index}, this.value)" 
+                                   style="width: 50px; font-family: 'Luckiest Guy'; padding: 5px; border-radius: 8px;">
+                            <br>
+                            $${item.price.toFixed(2)} x ${item.qty} = <strong>$${subtotal.toFixed(2)}</strong>
+                            <button onclick="removeItem(${index})" style="margin-left:10px; background:#ccc; border-radius:5px;">Remove</button>
+                        </p>
+                    </div>
+                `;
+            });
+
+            document.getElementById("cart-total").textContent = "Total Order: $" + total.toFixed(2);
+            renderPayPalButton(total.toFixed(2));
+        }
+
+        function updateSize(index, newSize) {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            cart[index].size = newSize;
             
-            const newItem = {
-                name: itemName.replace(/-/g, ' '),
-                price: itemPrice,
-                size: itemSize,
-                qty: itemQty
-            };
+            // Auto-update price for 2XL sizes as per your previous logic
+            const is2XL = newSize === "2XL";
+            if (cart[index].name.toLowerCase().includes("shirt")) {
+                cart[index].price = is2XL ? 25 : 20;
+            } else if (cart[index].name.toLowerCase().includes("hoodie")) {
+                cart[index].price = is2XL ? 50 : 40;
+            }
 
-            cart.push(newItem);
             localStorage.setItem("cart", JSON.stringify(cart));
-            window.history.replaceState({}, document.title, window.location.pathname);
-        }
-    }
-function loadCart() {
-        let cart = JSON.parse(localStorage.getItem("cart")) || [];
-        let container = document.getElementById("cart-items");
-        let total = 0;
-        container.innerHTML = "";
-
-        if (cart.length === 0) {
-            container.innerHTML = `<p class="empty-message">Your cart is empty.</p>`;
-            document.getElementById("cart-total").textContent = "";
-            return;
+            loadCart();
         }
 
-      
-        document.getElementById("cart-total").textContent = "Total Order: $" + total;
-    }
+        function updateQty(index, newQty) {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            cart[index].qty = parseInt(newQty) || 1;
+            localStorage.setItem("cart", JSON.stringify(cart));
+            loadCart();
+        }
 
-    function removeItem(index) {
-        let cart = JSON.parse(localStorage.getItem("cart")) || [];
-        cart.splice(index, 1);
-        localStorage.setItem("cart", JSON.stringify(cart));
+        function removeItem(index) {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            cart.splice(index, 1);
+            localStorage.setItem("cart", JSON.stringify(cart));
+            loadCart();
+        }
+
+        function clearCart() {
+            localStorage.removeItem("cart");
+            loadCart();
+        }
+
+        function renderPayPalButton(totalAmount) {
+            // Clear previous button to prevent duplicates on refresh
+            document.getElementById("paypal-button-container").innerHTML = "";
+            
+            paypal.Buttons({
+                createOrder: function(data, actions) {
+                    return actions.order.create({
+                        purchase_units: [{
+                            amount: { value: totalAmount }
+                        }]
+                    });
+                },
+                onApprove: function(data, actions) {
+                    return actions.order.capture().then(function(details) {
+                        alert('Transaction completed by ' + details.payer.name.given_name);
+                        clearCart(); // Wipe cart after successful payment
+                    });
+                }
+            }).render('#paypal-button-container');
+        }
+
+        handleIncomingItem();
         loadCart();
-    }
-cart.forEach((item, index) => {
-        const subtotal = item.price * item.qty;
-        total += subtotal;
-
-        // Check if the item is a type that needs a size (Shirts/Hoodies)
-        const needsSize = item.name.toLowerCase().includes("shirt") || item.name.toLowerCase().includes("hoodie");
-
-        container.innerHTML += `
-            <div style="border-bottom: 1px solid #eee; padding: 15px 0;">
-                <p>
-                    <strong>${item.name}</strong> <br>
-                    
-                    ${needsSize ? `
-                        <label>Size:</label>
-                        <select onchange="updateSize(${index}, this.value)" style="font-family: 'Luckiest Guy'; padding: 5px; border-radius: 8px;">
-                            <option value="Small" ${item.size === 'Small' ? 'selected' : ''}>Small</option>
-                            <option value="Medium" ${item.size === 'Medium' ? 'selected' : ''}>Medium</option>
-                            <option value="Large" ${item.size === 'Large' ? 'selected' : ''}>Large</option>
-                            <option value="XL" ${item.size === 'XL' ? 'selected' : ''}>XL</option>
-                            <option value="2XL" ${item.size === '2XL' ? 'selected' : ''}>2XL</option>
-                        </select>
-                    ` : ''}
-
-                    <br>
-                    $${item.price} x ${item.qty} = <strong>$${subtotal}</strong>
-                    <button onclick="removeItem(${index})">Remove</button>
-                </p>
-            </div>
-        `;
-    });
-
-    function updateSize(index, newSize) {
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    cart[index].size = newSize;
-    
-    // Logic to update price based on size choice
-    const is2XL = newSize === "2XL";
-    if (cart[index].name.toLowerCase().includes("shirt")) {
-        cart[index].price = is2XL ? 25 : 20;
-    } else if (cart[index].name.toLowerCase().includes("hoodie")) {
-        cart[index].price = is2XL ? 50 : 40;
-    }
-
-    localStorage.setItem("cart", JSON.stringify(cart));
-    loadCart(); // Refresh the display and the total
-}
-    function clearCart() {
-        localStorage.removeItem("cart");
-        loadCart();
-    }
-
-    function checkout() {
-        alert("Checkout is not implemented yet!");
-    }
-
-    handleIncomingItem(); 
-    loadCart();
-</script>
-    
+    </script>
 </body>
 </html>
