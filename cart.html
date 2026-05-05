@@ -4,36 +4,154 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Cart - Countdown City Yotas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
     <script src="https://www.paypal.com/sdk/js?client-id=test&currency=USD"></script>
     <style>
-        /* Keep your existing CSS here or link to your stylesheet */
-        body { font-family: 'Luckiest Guy', cursive; background-color: #f4f4f4; text-align: center; }
-        .cart-container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        .action-buttons button { padding: 10px 20px; margin: 10px; cursor: pointer; border-radius: 8px; border: none; background: #ff4500; color: white; font-family: 'Luckiest Guy'; }
-        .simple-nav-btn { display: inline-block; margin-top: 20px; text-decoration: none; color: #333; border: 1px solid #333; padding: 5px 10px; border-radius: 5px; }
-        .item-row { border-bottom: 1px solid #eee; padding: 15px 0; text-align: left; }
+        body {
+            font-family: 'Luckiest Guy', cursive;
+            background-color: #000;
+            color: white;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        .navbar {
+            background-color: #333;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            padding: 10px 0;
+        }
+        .navbar a {
+            color: white;
+            padding: 14px 20px;
+            text-decoration: none;
+            font-size: 18px;
+            transition: background-color 0.3s;
+        }
+        .navbar a:hover {
+            background-color: #ff4500;
+            border-radius: 8px;
+        }
+
+        .cart-container {
+            max-width: 800px;
+            margin: 50px auto;
+            background: #222;
+            padding: 30px;
+            border-radius: 20px;
+            border: 2px solid #ff4500;
+            box-shadow: 0 0 20px rgba(255, 69, 0, 0.4);
+        }
+
+        .item-row {
+            border-bottom: 1px solid #444;
+            padding: 20px 0;
+            text-align: left;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        input[type="number"], select {
+            font-family: 'Luckiest Guy';
+            padding: 8px;
+            border-radius: 8px;
+            border: 2px solid #ff4500;
+            background: #333;
+            color: white;
+        }
+
+        .remove-btn {
+            background-color: #ff4500;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Luckiest Guy';
+        }
+
+        #cart-total {
+            margin-top: 30px;
+            font-size: 2em;
+            color: #ff4500;
+        }
+
+        /* Payment Selector Styling */
+        .payment-methods {
+            margin-top: 30px;
+            padding: 20px;
+            background: #111;
+            border-radius: 15px;
+        }
+
+        .manual-pay-info {
+            display: none;
+            background: #333;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            border-left: 5px solid #ff4500;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 20px 0;
+            margin-top: 50px;
+        }
     </style>
 </head>
 <body>
+
+    <div class="navbar">
+        <a href="index.html">Home</a>
+        <a href="about.html">About Us</a>
+        <a href="Events.html">Events</a>
+        <a href="Photos.html">Photos</a>
+        <a href="Merchandise.html">Merchandise</a>
+        <a href="Contact_Us.html">Contact Us</a>
+    </div>
 
     <div class="cart-container">
         <h1>Your Cart</h1>
         <div id="cart-items"></div>
         <h2 id="cart-total"></h2>
 
-        <div id="paypal-button-container" style="margin-top: 20px;"></div>
+        <div class="payment-methods">
+            <h3>Select Payment Method:</h3>
+            <select id="pay-selector" onchange="togglePaymentFields()" style="width: 80%; font-size: 1.1em;">
+                <option value="paypal">PayPal or Credit Card</option>
+                <option value="cashapp">CashApp</option>
+                <option value="zelle">Zelle</option>
+            </select>
 
-        <div class="action-buttons">
-            <button onclick="clearCart()">Clear Cart</button>
+            <div id="paypal-button-container" style="margin-top: 25px;"></div>
+
+            <div id="cashapp-info" class="manual-pay-info">
+                <p>Send total to: <strong style="color:#00d632;">$CCYotas210</strong></p>
+                <p style="font-size: 0.8em;">Please include your Name and "Merch" in the notes.</p>
+                <button class="remove-btn" onclick="confirmManualPay('CashApp')">I've Sent Payment</button>
+            </div>
+
+            <div id="zelle-info" class="manual-pay-info">
+                <p>Send total to: <strong style="color:#ff4500;">(210) 555-5555</strong></p>
+                <p style="font-size: 0.8em;">Registered to: Countdown City Yotas</p>
+                <button class="remove-btn" onclick="confirmManualPay('Zelle')">I've Sent Payment</button>
+            </div>
         </div>
 
-        <br>
-        <a href="Merchandise.html" class="simple-nav-btn">Back to Merchandise</a>
-        <br>
-        <a href="index.html" class="simple-nav-btn">Back to Home</a>
+        <button onclick="clearCart()" class="remove-btn" style="background:#444; margin-top:40px;">Clear Entire Cart</button>
     </div>
 
+    <footer>
+        <p>&copy; 2026 Countdown City Yotas. Texas Built.</p>
+    </footer>
+
     <script>
+        // --- CART LOGIC ---
         function handleIncomingItem() {
             const urlParams = new URLSearchParams(window.location.search);
             const itemName = urlParams.get('item');
@@ -43,15 +161,8 @@
 
             if (itemName && itemPrice) {
                 let cart = JSON.parse(localStorage.getItem("cart")) || [];
-                const newItem = {
-                    name: itemName.replace(/-/g, ' '),
-                    price: itemPrice,
-                    size: itemSize,
-                    qty: itemQty
-                };
-                cart.push(newItem);
+                cart.push({ name: itemName.replace(/-/g, ' '), price: itemPrice, size: itemSize, qty: itemQty });
                 localStorage.setItem("cart", JSON.stringify(cart));
-                // Clean URL so refresh doesn't add duplicate items
                 window.history.replaceState({}, document.title, window.location.pathname);
             }
         }
@@ -65,11 +176,11 @@
             if (cart.length === 0) {
                 container.innerHTML = `<p>Your cart is empty.</p>`;
                 document.getElementById("cart-total").textContent = "";
-                document.getElementById("paypal-button-container").style.display = "none";
+                document.querySelector(".payment-methods").style.display = "none";
                 return;
             }
 
-            document.getElementById("paypal-button-container").style.display = "block";
+            document.querySelector(".payment-methods").style.display = "block";
 
             cart.forEach((item, index) => {
                 const subtotal = item.price * item.qty;
@@ -78,58 +189,50 @@
 
                 container.innerHTML += `
                     <div class="item-row">
-                        <p>
-                            <strong>${item.name}</strong> <br>
-                            ${needsSize ? `
-                                <label>Size:</label>
-                                <select onchange="updateSize(${index}, this.value)" style="font-family: 'Luckiest Guy'; padding: 5px; border-radius: 8px;">
-                                    <option value="Small" ${item.size === 'Small' ? 'selected' : ''}>Small</option>
-                                    <option value="Medium" ${item.size === 'Medium' ? 'selected' : ''}>Medium</option>
-                                    <option value="Large" ${item.size === 'Large' ? 'selected' : ''}>Large</option>
-                                    <option value="XL" ${item.size === 'XL' ? 'selected' : ''}>XL</option>
-                                    <option value="2XL" ${item.size === '2XL' ? 'selected' : ''}>2XL</option>
-                                </select>
-                            ` : ''}
-                            <br>
-                            <label>Qty:</label>
-                            <input type="number" min="1" value="${item.qty}" 
-                                   onchange="updateQty(${index}, this.value)" 
-                                   style="width: 50px; font-family: 'Luckiest Guy'; padding: 5px; border-radius: 8px;">
-                            <br>
-                            $${item.price.toFixed(2)} x ${item.qty} = <strong>$${subtotal.toFixed(2)}</strong>
-                            <button onclick="removeItem(${index})" style="margin-left:10px; background:#ccc; border-radius:5px;">Remove</button>
-                        </p>
+                        <div>
+                            <strong style="color:#ff4500;">${item.name}</strong><br>
+                            ${needsSize ? `<span>Size: ${item.size}</span> | ` : ''}
+                            <span>Qty: ${item.qty}</span>
+                        </div>
+                        <div>
+                            <span>$${subtotal.toFixed(2)}</span>
+                            <button class="remove-btn" onclick="removeItem(${index})" style="margin-left:10px; font-size:0.7em;">X</button>
+                        </div>
                     </div>
                 `;
             });
 
-            document.getElementById("cart-total").textContent = "Total Order: $" + total.toFixed(2);
-            renderPayPalButton(total.toFixed(2));
+            const finalTotal = total.toFixed(2);
+            document.getElementById("cart-total").textContent = "Total: $" + finalTotal;
+            renderPayPalButton(finalTotal);
+            togglePaymentFields(); // Ensure correct view shows
         }
 
-        function updateSize(index, newSize) {
-            let cart = JSON.parse(localStorage.getItem("cart")) || [];
-            cart[index].size = newSize;
-            
-            // Auto-update price for 2XL sizes as per your previous logic
-            const is2XL = newSize === "2XL";
-            if (cart[index].name.toLowerCase().includes("shirt")) {
-                cart[index].price = is2XL ? 25 : 20;
-            } else if (cart[index].name.toLowerCase().includes("hoodie")) {
-                cart[index].price = is2XL ? 50 : 40;
-            }
-
-            localStorage.setItem("cart", JSON.stringify(cart));
-            loadCart();
+        // --- PAYMENT LOGIC ---
+        function togglePaymentFields() {
+            const method = document.getElementById("pay-selector").value;
+            document.getElementById("paypal-button-container").style.display = (method === "paypal") ? "block" : "none";
+            document.getElementById("cashapp-info").style.display = (method === "cashapp") ? "block" : "none";
+            document.getElementById("zelle-info").style.display = (method === "zelle") ? "block" : "none";
         }
 
-        function updateQty(index, newQty) {
-            let cart = JSON.parse(localStorage.getItem("cart")) || [];
-            cart[index].qty = parseInt(newQty) || 1;
-            localStorage.setItem("cart", JSON.stringify(cart));
-            loadCart();
+        function renderPayPalButton(totalAmount) {
+            document.getElementById("paypal-button-container").innerHTML = "";
+            paypal.Buttons({
+                createOrder: (data, actions) => actions.order.create({ purchase_units: [{ amount: { value: totalAmount } }] }),
+                onApprove: (data, actions) => actions.order.capture().then(details => {
+                    alert('PayPal Payment Successful! Thank you.');
+                    clearCart();
+                })
+            }).render('#paypal-button-container');
         }
 
+        function confirmManualPay(method) {
+            alert("Thank you! Once we verify your " + method + " transfer, we will process your order.");
+            clearCart();
+        }
+
+        // --- UTILS ---
         function removeItem(index) {
             let cart = JSON.parse(localStorage.getItem("cart")) || [];
             cart.splice(index, 1);
@@ -140,27 +243,6 @@
         function clearCart() {
             localStorage.removeItem("cart");
             loadCart();
-        }
-
-        function renderPayPalButton(totalAmount) {
-            // Clear previous button to prevent duplicates on refresh
-            document.getElementById("paypal-button-container").innerHTML = "";
-            
-            paypal.Buttons({
-                createOrder: function(data, actions) {
-                    return actions.order.create({
-                        purchase_units: [{
-                            amount: { value: totalAmount }
-                        }]
-                    });
-                },
-                onApprove: function(data, actions) {
-                    return actions.order.capture().then(function(details) {
-                        alert('Transaction completed by ' + details.payer.name.given_name);
-                        clearCart(); // Wipe cart after successful payment
-                    });
-                }
-            }).render('#paypal-button-container');
         }
 
         handleIncomingItem();
